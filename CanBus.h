@@ -30,8 +30,9 @@ void Can_Init(){
           #ifdef SLAVE_06
           resp_buf[7]  = SLAVE_06;
           #endif 
-          SlaveAdr = resp_buf[7] ;
            resp_buf[7]++;
+          SlaveAdr = resp_buf[7] ;
+           
           Serial.println("Slave");
           Serial.print("Adr:");
           Serial.println(resp_buf[7]);       
