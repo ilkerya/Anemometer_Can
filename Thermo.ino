@@ -65,6 +65,7 @@ void Thermo1_Init(void){
     Serial.println("Could not initialize thermocouple.");
     while (1) delay(10);
   }
+  Thermo1.Mode = T_INIT_1;
   maxthermo_1.setThermocoupleType(MAX31856_TCTYPE_K);
   delay(10);
   Serial.print("Thermocouple type_1: ");
@@ -91,7 +92,7 @@ void Thermo2_Init(void){
     Serial.println("Could not initialize thermocouple.");
     while (1) delay(10);
   }
-
+ Thermo2.Mode = T_INIT_1;
   maxthermo_2.setThermocoupleType(MAX31856_TCTYPE_K);
   delay(10);
   Serial.print("Thermocouple type_2: ");
@@ -109,6 +110,24 @@ void Thermo2_Init(void){
     default: Serial.println("Unknown"); break;
   }
   maxthermo_2.setConversionMode(MAX31856_ONESHOT_NOWAIT);
+}
+uint8_t Fault_Detect(uint8_t fault){
+  uint8_t FaultNo;
+  if (fault){
+    if (fault & MAX31856_FAULT_CJRANGE) FaultNo = 1;
+    if (fault & MAX31856_FAULT_TCRANGE) FaultNo = 2;
+    if (fault & MAX31856_FAULT_CJHIGH)  FaultNo = 3;
+    if (fault & MAX31856_FAULT_CJLOW)   FaultNo = 4;
+    if (fault & MAX31856_FAULT_TCHIGH)  FaultNo = 5;
+    if (fault & MAX31856_FAULT_TCLOW)   FaultNo = 6;
+    if (fault & MAX31856_FAULT_OVUV)    FaultNo = 7;
+    if (fault & MAX31856_FAULT_OPEN)    FaultNo = 8;
+  }
+  else FaultNo = 0;
+  char buffer[21];
+  strcpy_P(buffer, (char *)pgm_read_word(&(TH_ERR_TABLE[FaultNo])));  // Necessary casts and dereferencing, just copy.
+  Serial.println(buffer);
+  return FaultNo;
 }
 void Thermo1_Conversion(void){
     // check for conversion complete and read temperature
@@ -128,19 +147,7 @@ void Thermo1_Conversion(void){
     Thermo1_Init();
     //delay(100);
   }
-
-  uint8_t fault = maxthermo_1.readFault();
-  Thermo1.Fault = fault;
-  if (fault) {
-    if (fault & MAX31856_FAULT_CJRANGE) Serial.println("Cold Junction Range Fault");
-    if (fault & MAX31856_FAULT_TCRANGE) Serial.println("Thermocouple Range Fault");
-    if (fault & MAX31856_FAULT_CJHIGH)  Serial.println("Cold Junction High Fault");
-    if (fault & MAX31856_FAULT_CJLOW)   Serial.println("Cold Junction Low Fault");
-    if (fault & MAX31856_FAULT_TCHIGH)  Serial.println("Thermocouple High Fault");
-    if (fault & MAX31856_FAULT_TCLOW)   Serial.println("Thermocouple Low Fault");
-    if (fault & MAX31856_FAULT_OVUV)    Serial.println("Over/Under Voltage Fault");
-    if (fault & MAX31856_FAULT_OPEN)    Serial.println("Thermocouple Open Fault");
-  }
+   Thermo1.Fault =  Fault_Detect(maxthermo_1.readFault());
         /*
             unsigned  char *p =(unsigned  char*) &Thermo1.Temp;
             Th1_arr[0]= *p;
@@ -157,6 +164,7 @@ void Thermo1_Conversion(void){
 void Thermo2_Conversion(void){
   // check for conversion complete and read temperature
   if (maxthermo_2.conversionComplete()) {
+   //    Serial.print(maxthermo_2.readThermocoupleTemperature());   
      Thermo2.Temp = maxthermo_2.readThermocoupleTemperature();
      Serial.print(Thermo2.Temp); 
     
@@ -175,18 +183,7 @@ void Thermo2_Conversion(void){
     Thermo2_Init();
     //delay(100);
   }
-  uint8_t fault = maxthermo_2.readFault();
-  Thermo2.Fault = fault;
-  if (fault) {
-    if (fault & MAX31856_FAULT_CJRANGE) Serial.println("Cold Junction Range Fault");
-    if (fault & MAX31856_FAULT_TCRANGE) Serial.println("Thermocouple Range Fault");
-    if (fault & MAX31856_FAULT_CJHIGH)  Serial.println("Cold Junction High Fault");
-    if (fault & MAX31856_FAULT_CJLOW)   Serial.println("Cold Junction Low Fault");
-    if (fault & MAX31856_FAULT_TCHIGH)  Serial.println("Thermocouple High Fault");
-    if (fault & MAX31856_FAULT_TCLOW)   Serial.println("Thermocouple Low Fault");
-    if (fault & MAX31856_FAULT_OVUV)    Serial.println("Over/Under Voltage Fault");
-    if (fault & MAX31856_FAULT_OPEN)    Serial.println("Thermocouple Open Fault");
-  }
+  Thermo2.Fault =  Fault_Detect(maxthermo_2.readFault());
 }
 
     #endif 

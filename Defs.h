@@ -1,7 +1,18 @@
+
+
+#include <SPI.h>
+#include "mcp2515_can.h"
+#include <Adafruit_MAX31856.h>
+#include <Adafruit_SSD1306.h>
+
+#define TFCARD_SPI_CS  4 //ACTIVE LOW
+#define MCP2515_SPI_CS  9 //ACTIVE LOW
+
+const int SPI_CS_PIN = 9;
+const int CAN_INT_PIN = 2;
+
 #define ON 1
 #define OFF 0
-
-
 
 #define T_INIT_1 0
 #define T_INIT_2 1

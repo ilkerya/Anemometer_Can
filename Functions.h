@@ -76,6 +76,7 @@ ISR(TIMER1_OVF_vect){        // interrupt service routine that wraps a user defi
       }
       else Thermo1.Mode = T_INIT_1; 
     }
+    
     if(Thermo2.Mode == T_WAIT_1){
       if(Thermo2.DelayTimer != 0){
         Thermo2.DelayTimer--;

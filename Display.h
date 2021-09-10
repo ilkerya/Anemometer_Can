@@ -190,23 +190,29 @@ void displayValues(void){
 
   display.setCursor(0, 0);
 
-
+    char buffer[21];
   display.print("1: ");
+  
   if(Thermo1.Fault == 0){
     display.print(Thermo1.Temp);   //10
     display.write(247); // 5th character  '°';
     display.print("C");
-  }
-  else display.print("-----");
-
-  display.print(" ");   //10
-
-  if(Thermo1.Fault == 0){
+    display.print(" ");   //10
     display.print(Thermo1.J_Temp);
     display.write(247); // 5th character  '°';
-    display.print("C"); 
+    display.print("C");     
   }
-  else display.print("-----");
+  else{
+    //display.print("----- -----");
+
+
+   //   for (int i = 0; i < 8; i++) {
+  //int i = FaultNo;
+      strcpy_P(buffer, (char *)pgm_read_word(&(TH_ERR_TABLE[Thermo1.Fault])));  // Necessary casts and dereferencing, just copy.
+      display.print(buffer);
+    //  Serial.println(buffer);
+    
+  }
 
   
 
@@ -216,18 +222,18 @@ void displayValues(void){
   if(Thermo2.Fault == 0){
     display.print(Thermo2.Temp);   //10
     display.write(247); // 5th character  '°';
-    display.print("C");
-  }
-  else display.print("-----");
-
-  display.print(" ");   //10
-
-  if(Thermo2.Fault == 0){
+    display.print("C ");
     display.print(Thermo2.J_Temp);
     display.write(247); // 5th character  '°';
     display.print("C"); 
+    
   }
-  else display.print("-----");
+  else {
+      strcpy_P(buffer, (char *)pgm_read_word(&(TH_ERR_TABLE[Thermo2.Fault])));  // Necessary casts and dereferencing, just copy.
+      display.print(buffer);
+  }
+
+
   
 
   //   Display_Line2 =  String(KeyAdc);
@@ -267,7 +273,8 @@ void displayValues(void){
   display.print("6");   //10
 
   display.setCursor(0, 48);
-  display.print("7");   //10
+  display.print("7 ");   //10
+  display.print(Thermo2.Mode);
 
 
   display.setCursor(0, 56); // 8th line

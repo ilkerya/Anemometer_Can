@@ -4,19 +4,10 @@
 // 100 milliseconds, that times is made available by separating these
 // two steps.
 
-#define CAN_MASTER
-//#define CAN_SLAVE
+//#define CAN_MASTER
+#define CAN_SLAVE
 
-#include <SPI.h>
-#include "mcp2515_can.h"
-#include <Adafruit_MAX31856.h>
-#include <Adafruit_SSD1306.h>
 
-#define TFCARD_SPI_CS  4 //ACTIVE LOW
-#define MCP2515_SPI_CS  9 //ACTIVE LOW
-
-const int SPI_CS_PIN = 9;
-const int CAN_INT_PIN = 2;
 
 #include  "Defs.h"
 #include  "Variables.h"
@@ -25,10 +16,15 @@ const int CAN_INT_PIN = 2;
 #include  "CanBus.h"
 
     #ifdef CAN_SLAVE
+   //  pinMode(5, OUTPUT);
+
  
     // Use software SPI: CS, DI, DO, CLK
-    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(10, 11, 12, 13);
-    Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(7, 11, 12, 13);
+   // Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(7, 11, 12, 13);
+   // Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(1, 0, 3, 5); // pcb not working
+    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(6, 7, 3, 5);
+    
+    Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(10, 11, 12, 13);
     //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(10);
     //Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(7);
     //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(M1_CS, M1_SDI, M1_SDO, M1_SCK);
@@ -43,8 +39,7 @@ const int CAN_INT_PIN = 2;
 
 void setup() {
   MicroInit();
-  //Serial.begin(115200);
- // while (!Serial) delay(10);
+
   IO_Set();
   delay(10);
 
@@ -55,14 +50,17 @@ void setup() {
     #endif
     #ifdef CAN_SLAVE
       Serial.println("MAX31856 thermocouple test");
-      Thermo2_Init();
       Thermo1_Init();
+      Thermo2_Init();
       Can_Slave();
     #endif  
 }
 
 
 void loop() {
+  
+//maxthermo_2.triggerOneShot();
+
       Common_Loop(); 
 
     #ifdef  CAN_MASTER
@@ -75,4 +73,12 @@ void loop() {
       Can_Slave();
     #endif  
   
+  /*
+  delay(1000); // replace this with whatever
+  if (maxthermo_2.conversionComplete()) {
+    Serial.println(maxthermo_2.readThermocoupleTemperature());
+  } else {
+    Serial.println("Conversion not complete!");
+  }
+  */
 }

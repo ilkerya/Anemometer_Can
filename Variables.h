@@ -1,6 +1,15 @@
 // https://en.cppreference.com/w/cpp/types/integer
 
-
+static const char TH_ERR_0[] PROGMEM = " Measurement Ok !  "; 
+static const char TH_ERR_1[] PROGMEM = "Cold Junc Rng Fault"; 
+static const char TH_ERR_2[] PROGMEM = "Thermocop Range Flt"; 
+static const char TH_ERR_3[] PROGMEM = "Cold Junc High Falt";
+static const char TH_ERR_4[] PROGMEM = "Cold Junc Low Fault"; 
+static const char TH_ERR_5[] PROGMEM = "Thermocp High Fault"; 
+static const char TH_ERR_6[] PROGMEM = "Thermocop Low Fault"; 
+static const char TH_ERR_7[] PROGMEM = "Over/UnderVolta Flt"; 
+static const char TH_ERR_8[] PROGMEM = "Thermocple Open Flt"; 
+const char *const TH_ERR_TABLE[] PROGMEM = {TH_ERR_0, TH_ERR_1, TH_ERR_2, TH_ERR_3, TH_ERR_4, TH_ERR_5, TH_ERR_6, TH_ERR_7, TH_ERR_8};
 
 // CAN BUS VARIABLES
 byte Adr_Slave[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06}; //send BUF
@@ -62,6 +71,7 @@ struct ThermoLoop
   uint8_t  DelayTimer = 0;
   uint8_t  FreqTimer = 0;  
   uint8_t Fault;
+  uint8_t FaulNo;
   uint8_t Mode;
   float Temp;
   float J_Temp; 
