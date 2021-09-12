@@ -4,8 +4,10 @@
 // 100 milliseconds, that times is made available by separating these
 // two steps.
 
-//#define CAN_MASTER
-#define CAN_SLAVE
+//#define DEBUG_MODE
+
+#define CAN_MASTER
+//#define CAN_SLAVE
 
 
 
@@ -16,18 +18,12 @@
 #include  "CanBus.h"
 
     #ifdef CAN_SLAVE
-   //  pinMode(5, OUTPUT);
 
- 
     // Use software SPI: CS, DI, DO, CLK
-   // Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(7, 11, 12, 13);
-   // Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(1, 0, 3, 5); // pcb not working
-    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(6, 7, 3, 5);
-    
+
+    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(6, 7, 3, 5);   
     Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(10, 11, 12, 13);
-    //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(10);
-    //Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(7);
-    //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(M1_CS, M1_SDI, M1_SDO, M1_SCK);
+
     //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(10);
     //Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(M2_CS, M2_SDI, M2_SDO, M2_SCK);
 
@@ -65,6 +61,10 @@ void loop() {
 
     #ifdef  CAN_MASTER
         Can_Master();
+            delay(100);
+            #ifndef DEBUG_MODE
+       UI_Data();      
+            #endif
     #endif
     #ifdef CAN_SLAVE
       Thermo1_Loop();

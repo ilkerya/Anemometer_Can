@@ -191,8 +191,14 @@ void displayValues(void){
   display.setCursor(0, 0);
 
     char buffer[21];
+    #ifdef CAN_MASTER
+     display.print("       CAN MASTER");   //10
+
+    
+      #endif
+    #ifdef CAN_SLAVE
+      
   display.print("1: ");
-  
   if(Thermo1.Fault == 0){
     display.print(Thermo1.Temp);   //10
     display.write(247); // 5th character  '°';
@@ -213,11 +219,16 @@ void displayValues(void){
     //  Serial.println(buffer);
     
   }
-
+  #endif
   
 
   display.setCursor(0, 8);
-
+    #ifdef CAN_MASTER
+  
+    
+      #endif
+  
+  #ifdef CAN_SLAVE
   display.print("2: ");
   if(Thermo2.Fault == 0){
     display.print(Thermo2.Temp);   //10
@@ -232,53 +243,94 @@ void displayValues(void){
       strcpy_P(buffer, (char *)pgm_read_word(&(TH_ERR_TABLE[Thermo2.Fault])));  // Necessary casts and dereferencing, just copy.
       display.print(buffer);
   }
-
+  #endif
 
   
 
   //   Display_Line2 =  String(KeyAdc);
 
   display.setCursor(0, 16);
-  display.print("3 ");   //10
+    #ifdef CAN_MASTER
+    if(Nodes.Adr_1 == ON)display.print("1 ");
+    else display.print("  ");  
+    if(Nodes.Adr_2 == ON)display.print("3 ");
+    else display.print("  ");  
+    if(Nodes.Adr_3 == ON)display.print("5 ");
+    else display.print("  ");
+    if(Nodes.Adr_4 == ON)display.print("7 ");
+    else display.print("  ");
+    if(Nodes.Adr_5 == ON)display.print("9 ");
+    else display.print("  ");
+    if(Nodes.Adr_6 == ON)display.print("11 ");//13
+    else display.print("   ");
+    if(Nodes.Adr_7 == ON)display.print("13 ");//16
+    else display.print("   ");
+    if(Nodes.Adr_8 == ON)display.print("15 ");//19
+    else display.print("   ");  
+    
+      #endif
+
+  
+
 
   #ifdef CAN_SLAVE
+      display.print("3 ");   //10
     display.print("Slave Adr:");   //10
     display.print(SlaveAdr);   //10
   #endif
-  #ifdef CAN_MASTER
-    display.print("Master ");   //10
-  #endif
-  /*
-  display.print(Th1_arr[3]);   //10
-  display.print(Th1_arr[2]);   //10
-  display.print(Th1_arr[1]);   //10
-  display.print(Th1_arr[0]);   //10
-*/
-  
+
 
   display.setCursor(0, 24);
+        #ifdef CAN_MASTER
+    if(Nodes.Adr_9 == ON)display.print("17 ");
+    else display.print("  ");
+    if(Nodes.Adr_10 == ON)display.print("19 ");
+    else display.print("  ");   
+    if(Nodes.Adr_11 == ON)display.print("21 ");
+    else display.print("  ");
+    if(Nodes.Adr_12 == ON)display.print("23 ");
+    else display.print("  ");
+    if(Nodes.Adr_13 == ON)display.print("25 ");//15
+    else display.print("  ");
+    if(Nodes.Adr_14 == ON)display.print("27 ");//18
+    else display.print("   ");
+    if(Nodes.Adr_15 == ON)display.print("29 ");//21
+    else display.print("   "); 
+          #endif
+    #ifdef CAN_SLAVE
   display.print("4 ");   //10
 
+      #endif
 
-  //float templ = *Th1_New;
-
-  display.print(*Th1_New);   //10
-
-  
-
+ 
   display.setCursor(0, 32);
+        #ifdef CAN_MASTER
+    if(Nodes.Adr_16 == ON)display.print("31 ");//
+    else display.print("   ");    
+    if(Nodes.Adr_17 == ON)display.print("33 ");//
+    else display.print("   ");   
+    if(Nodes.Adr_18 == ON)display.print("35 ");//
+    else display.print("   ");  
+        #endif
+
+      #ifdef CAN_SLAVE
   display.print("5");   //10
-
+            #endif
   display.setCursor(0, 40);
-  display.print("6");   //10
 
+      #ifdef CAN_SLAVE
+  display.print("6");   //10
+            #endif
   display.setCursor(0, 48);
+
+      #ifdef CAN_SLAVE
   display.print("7 ");   //10
-  display.print(Thermo2.Mode);
+            #endif
 
 
   display.setCursor(0, 56); // 8th line
+      #ifdef CAN_SLAVE
   display.print("8");   //10
-
+            #endif
   display.display();
 }

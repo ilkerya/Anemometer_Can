@@ -1,3 +1,170 @@
+
+
+void ClearNodes(byte index){
+       for(int i = 0; i < sizeof(Adr_Slave); i++ ){
+          if (Adr_Slave[index] == Adr_Slave[i]){
+                  switch(i){
+                    case 0: Nodes.Adr_1 = OFF;
+                    break;
+                    case 1: Nodes.Adr_2 = OFF;
+                    break;
+                    case 2: Nodes.Adr_3 = OFF;
+                    break;
+                    case 3: Nodes.Adr_4 = OFF;
+                    break;
+                    case 4: Nodes.Adr_5 = OFF;
+                    break;
+                    case 5: Nodes.Adr_6 = OFF;
+                    break;
+                    case 6: Nodes.Adr_7= OFF;
+                    break;   
+                    case 7: Nodes.Adr_8 = OFF;
+                    break;
+                    case 8: Nodes.Adr_9 = OFF;
+                    break;
+                    case 9: Nodes.Adr_10 = OFF;
+                    break;
+                    case 10: Nodes.Adr_11 = OFF;
+                    break;
+                    case 11: Nodes.Adr_12 = OFF;
+                    break;    
+                    case 12: Nodes.Adr_13 = OFF;
+                    break;
+                    case 13: Nodes.Adr_14 = OFF;
+                    break;
+                    case 14: Nodes.Adr_15 = OFF;
+                    break;
+                    case 15: Nodes.Adr_16 = OFF;
+                    break;   
+                    case 16: Nodes.Adr_17 = OFF;
+                    break;
+                    case 17: Nodes.Adr_18 = OFF;
+                    break;
+                    deafult:
+                    break;
+                                                                                                                                                                                          
+                }
+         }
+        /*
+      Nodes.Adr_3 = OFF;Nodes.Adr_4 = OFF;Nodes.Adr_5 = OFF;
+      Nodes.Adr_6 = OFF;Nodes.Adr_7 = OFF;Nodes.Adr_8 = OFF;Nodes.Adr_9 = OFF;Nodes.Adr_10 = OFF;
+      Nodes.Adr_11 = OFF;Nodes.Adr_12 = OFF;Nodes.Adr_13 = OFF;Nodes.Adr_14 = OFF;Nodes.Adr_15 = OFF;
+      Nodes.Adr_16 = OFF;Nodes.Adr_17 = OFF;Nodes.Adr_18 = OFF;
+      */
+    }
+}
+
+
+void PutArray(float* Temp,byte index, bool Type){     
+
+     
+      for(int i = 0; i < sizeof(Adr_Slave); i++ ){
+          if (Adr_Slave[index] == Adr_Slave[i]){
+                  switch(i){
+                    case 0: 
+                        Nodes.Adr_1 = ON;
+                      if(Type == THERMOCOUPLE){
+                        ThermoCouple.Adr_1 = *Temp;
+                        ThermoCouple.Adr_2 = *++Temp;
+                      } 
+                      if(Type == AIRFLOW){
+                        AirFlow.Adr_1 = *Temp;
+                        AirFlow.Adr_2 = *++Temp;
+                      }                                      
+                    break;
+                    case 1:
+                        Nodes.Adr_2 = ON;
+                       if(Type == THERMOCOUPLE){
+                        ThermoCouple.Adr_3 = *Temp;
+                        ThermoCouple.Adr_4 = *++Temp;
+                       }
+                       if(Type == AIRFLOW){
+                        AirFlow.Adr_3 = *Temp;
+                        AirFlow.Adr_4 = *++Temp;
+                      }                   
+                    break;
+                     case 2:
+                      Nodes.Adr_3 = ON;
+                       if(Type == THERMOCOUPLE){                   
+                         ThermoCouple.Adr_5 = *Temp;
+                         ThermoCouple.Adr_6 = *++Temp;
+                       }
+                       if(Type == AIRFLOW){
+                         AirFlow.Adr_5 = *Temp;
+                         AirFlow.Adr_6 = *++Temp;
+                      }                         
+                    break;                   
+                    case 3:
+                        Nodes.Adr_4 = ON;
+                       if(Type == THERMOCOUPLE){                      
+                        ThermoCouple.Adr_7 = *Temp;
+                        ThermoCouple.Adr_8 = *++Temp;
+                       }
+                       if(Type == AIRFLOW){
+                         AirFlow.Adr_7 = *Temp;
+                         AirFlow.Adr_8 = *++Temp;
+                      }                           
+                    break;      
+                    case 4:
+                          Nodes.Adr_5 = ON;
+                        if(Type == THERMOCOUPLE){                      
+                          ThermoCouple.Adr_9 = *Temp;
+                          ThermoCouple.Adr_10 = *++Temp;
+                       }
+                       if(Type == AIRFLOW){
+                         AirFlow.Adr_9 = *Temp;
+                         AirFlow.Adr_10 = *++Temp;
+                      }                           
+                    break;
+                     case 5:
+                        Nodes.Adr_6 = ON;
+                       if(Type == THERMOCOUPLE){                      
+                          ThermoCouple.Adr_11 = *Temp;
+                          ThermoCouple.Adr_12 = *++Temp;
+                       }
+                       if(Type == AIRFLOW){
+                         AirFlow.Adr_11 = *Temp;
+                         AirFlow.Adr_12 = *++Temp;
+                      }                             
+                    break;                   
+                    default:
+                    break;                                   
+              }                   
+         }            
+    }              
+}
+             
+void UI_Data(){
+  //  Serial.println("UI");
+    Serial.print("Th_1:  ");Serial.println(ThermoCouple.Adr_1);
+    Serial.print("Th_2:  ");Serial.println(ThermoCouple.Adr_2);
+    Serial.print("Th_3:  ");Serial.println(ThermoCouple.Adr_3);
+    Serial.print("Th_4:  ");Serial.println(ThermoCouple.Adr_4);
+    Serial.print("Th_5:  ");Serial.println(ThermoCouple.Adr_5);
+    Serial.print("Th_6:  ");Serial.println(ThermoCouple.Adr_6);
+    Serial.print("Th_7:  ");Serial.println(ThermoCouple.Adr_7);
+    Serial.print("Th_8:  ");Serial.println(ThermoCouple.Adr_8);   
+    Serial.print("Th_9:  ");Serial.println(ThermoCouple.Adr_9);
+    Serial.print("Th_10: ");Serial.println(ThermoCouple.Adr_10);
+    Serial.print("Th_11: ");Serial.println(ThermoCouple.Adr_11);
+    Serial.print("Th_12: ");Serial.println(ThermoCouple.Adr_12);
+
+    Serial.print("Af_1:  ");Serial.println(AirFlow.Adr_1);
+    Serial.print("Af_2:  ");Serial.println(AirFlow.Adr_2);
+    Serial.print("Af_3:  ");Serial.println(AirFlow.Adr_3);
+    Serial.print("Af_4:  ");Serial.println(AirFlow.Adr_4);
+    Serial.print("Af_5:  ");Serial.println(AirFlow.Adr_5);
+    Serial.print("Af_6:  ");Serial.println(AirFlow.Adr_6);
+    Serial.print("Af_7:  ");Serial.println(AirFlow.Adr_7);
+    Serial.print("Af_8:  ");Serial.println(AirFlow.Adr_8);   
+    Serial.print("Af_9:  ");Serial.println(AirFlow.Adr_9);
+    Serial.print("Af_10: ");Serial.println(AirFlow.Adr_10);
+    Serial.print("Af_11: ");Serial.println(AirFlow.Adr_11);
+    Serial.print("Af_12: ");Serial.println(AirFlow.Adr_12);
+    
+
+}
+
 void IO_Set(void){
   pinMode(MCP2515_SPI_CS, OUTPUT);   
   pinMode(TFCARD_SPI_CS, OUTPUT);  
@@ -62,6 +229,15 @@ ISR(TIMER1_OVF_vect){        // interrupt service routine that wraps a user defi
     Loop.IntTimer_10 ++;
     Loop.IntTimer_20 ++;   
     Loop.IntTimer_60 ++;   
+
+#define CAN_TIMEOUT 4 // 4*20ms = 80mS
+
+   #ifdef CAN_MASTER
+        CanTimeOut_Timer++;
+        if(CanTimeOut_Timer >= CAN_TIMEOUT)CanTimeOut_Flag = 1;
+  
+      #endif 
+    
    #ifdef CAN_SLAVE
    
     if(Thermo1.Mode == T_WAIT_1){
@@ -192,9 +368,10 @@ void MicroInit() {
 
 //  ADCSRA &= ~ (1 << ADEN);            // turn off ADC to save power ,, enable when needed and turn off again
     ADCSRA |= (1 << ADEN); // enable adc
-
+   #ifdef DEBUG_MODE
   Serial.print(F("Compiled: "));
   Serial.println( __DATE__ ", " __TIME__ ", " __VERSION__); 
+  #endif
  // Serial.println( F("Compiled: ") __DATE__ ", " __TIME__ ", " __VERSION__);
   //Compiled: Jul 21 2020 15:55:39 7.3.0
   //  ShowSerialCode();

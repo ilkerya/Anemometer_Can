@@ -172,10 +172,10 @@ void Thermo2_Conversion(void){
     Serial.print(" 'C for 2.");
     Serial.print("/   Cold_2: ");
     Thermo2.J_Temp = maxthermo_2.readCJTemperature();
-     Serial.println(Thermo2.J_Temp);   
+     Serial.print(Thermo2.J_Temp);   
     //Serial.println(maxthermo_2.readCJTemperature());
 
-      Serial.print("Slave Adr:");
+      Serial.print("  Slave Adr:");
       Serial.println(SlaveAdr);   //10
   } 
   else {

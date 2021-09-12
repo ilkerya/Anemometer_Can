@@ -21,16 +21,25 @@ const int CAN_INT_PIN = 2;
 #define T_CONV_2 4
 #define T_WAIT_2 5
 
-//#define SLAVE_01  0x00
-//#define SLAVE_02  0x01
-//#define SLAVE_03  0x02
-//#define SLAVE_04  0x03
-//#define SLAVE_05  0x04
-#define SLAVE_06  0x05
+//#define SLAVE_01  1
+#define SLAVE_02  3
+//#define SLAVE_03  5
+//#define SLAVE_04  7
+//#define SLAVE_05  9
+//#define SLAVE_06  11
+//#define SLAVE_07 13
+//#define SLAVE_08 15
+//#define SLAVE_09 17
+//#define SLAVE_10 19
+//#define SLAVE_11 21
+//#define SLAVE_12 23
+//#define SLAVE_13 25
+//#define SLAVE_14 27
+//#define SLAVE_15 29
+//#define SLAVE_16 31
+//#define SLAVE_17 33
+//#define SLAVE_18 35
 
-//#define ADR_SLAVE_01  0x00
-//#define ADR_SLAVE_02  0x01
-//#define ADR_SLAVE_03  0x02
 
 
 void Can_Init(void);
@@ -42,3 +51,8 @@ void Thermo1_Init(void);
 void Thermo2_Init(void);
 void Thermo1_Conversion(void);
 void Thermo2_Conversion(void);
+void UI_Data(void);
+#define THERMOCOUPLE 1
+#define AIRFLOW 0
+void PutArray(float* Temp,byte index,bool Type);
+void ClearNodes(byte index);

@@ -12,7 +12,9 @@ static const char TH_ERR_8[] PROGMEM = "Thermocple Open Flt";
 const char *const TH_ERR_TABLE[] PROGMEM = {TH_ERR_0, TH_ERR_1, TH_ERR_2, TH_ERR_3, TH_ERR_4, TH_ERR_5, TH_ERR_6, TH_ERR_7, TH_ERR_8};
 
 // CAN BUS VARIABLES
-byte Adr_Slave[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06}; //send BUF
+//byte Adr_Slave[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06}; //send BUF
+byte Adr_Slave[6] = {1, 3, 5, 7, 9, 11}; //send BUF
+//byte Adr_Slave[18] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 }; //send BUF
 unsigned char stmp[8] = {0, 0, 0, 0, 0, 0, 0, 0}; //send BUF
 unsigned char resp_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0}; //send BUF
 
@@ -20,13 +22,57 @@ unsigned char Th1_arr[4] = {0, 0, 0, 0}; //send
 float* Th1_New;
 
     unsigned char SlaveAdr;
-   
+    unsigned char CanTimeOut_Timer; 
+    volatile bool CanTimeOut_Flag;
     unsigned char len = 0;
     unsigned char buf[8];
     byte Adr_Master=0;
     byte Adr_index = 0;
 //  CAN BUS VARIABLES
-    
+
+struct  Sensors
+{
+  float Adr_1;
+  float Adr_2;
+  float Adr_3;
+  float Adr_4;  
+  float Adr_5;
+  float Adr_6;
+  float Adr_7; 
+  float Adr_8;
+  float Adr_9;
+  float Adr_10; 
+  float Adr_11;
+  float Adr_12;
+  float Adr_13; 
+  float Adr_14;
+  float Adr_15;
+  float Adr_16; 
+  float Adr_17;
+  float Adr_18;
+  float Adr_19; 
+  float Adr_20;
+  float Adr_21;
+  float Adr_22; 
+  float Adr_23;
+  float Adr_24;
+  float Adr_25; 
+  float Adr_26;
+  float Adr_27;
+  float Adr_28; 
+  float Adr_29;
+  float Adr_30;
+  float Adr_31; 
+  float Adr_32;
+  float Adr_33;
+  float Adr_34; 
+  float Adr_35;
+  float Adr_36;                   
+} ;
+
+Sensors ThermoCouple;
+Sensors AirFlow;
+
 
 static const unsigned char PROGMEM logo16_glcd_bmp[] =
 { B00000000, B11000000,
@@ -64,6 +110,30 @@ String Display_Line8 ="Display..Line8.......";
 
 */
 
+struct CanNode
+{
+  bool Adr_1;
+  bool Adr_2;
+  bool Adr_3;
+  bool Adr_4;  
+  bool Adr_5;
+  bool Adr_6;
+  bool Adr_7; 
+  bool Adr_8;
+  bool Adr_9;
+  bool Adr_10; 
+  bool Adr_11;
+  bool Adr_12;
+  bool Adr_13; 
+  bool Adr_14;
+  bool Adr_15;
+  bool Adr_16; 
+  bool Adr_17;
+  bool Adr_18;
+};
+
+CanNode Nodes;
+
 float ReShape;
 
 struct ThermoLoop
@@ -81,6 +151,8 @@ struct ThermoLoop
 ThermoLoop Thermo1 ;
 ThermoLoop Thermo2; 
 
+uint16_t AirFlow1;
+uint16_t AirFlow2;
 
 struct TaskOrg
 {
