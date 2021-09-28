@@ -113,7 +113,7 @@ void Can_Master(){
               Serial.print("   Th2 :");
               Serial.println(*Th1_New);
                   #endif                   
-              PutArray((float*) &buf[0], Adr_index, THERMOCOUPLE );                             
+              PutArray_Temp((float*) &buf[0], Adr_index );                             
         }
     }
     //SERIAL_PORT_MONITOR.println("CAN BUS sendMsgBuf ok!");
@@ -149,17 +149,17 @@ void Can_Master(){
                 #endif 
           }
           else {
-           float* AirFlow =(float*) &buf[0];
+           uint16_t* AirFlow =(uint16_t* ) &buf[0];
                   #ifdef DEBUG_MODE
               Serial.print(" AirFlow1 :");
               Serial.print(*AirFlow);
                 #endif 
-              AirFlow =(float*) &buf[4];
+              AirFlow =(uint16_t*) &buf[2];
                   #ifdef DEBUG_MODE
               Serial.print("   AirFlow2 :");
               Serial.println(*AirFlow);
                 #endif 
-              PutArray((float*) &buf[0], Adr_index, AIRFLOW );    
+              PutArray_Air((uint16_t*) &buf[0], Adr_index );    
         }
     }
      Adr_index++;
@@ -257,17 +257,17 @@ void Can_Slave(){
         }
         if (canId == (AdrTemp+1)){
           //AirFlow1
-            unsigned  char *p =(unsigned  char*) &Thermo1.Temp;
+            unsigned  char *p =(unsigned  char*) &AirFlow1;
             resp_buf[0]= *p;
             resp_buf[1]= *(p+1);
-            resp_buf[2]= *(p+2);
-            resp_buf[3]= *(p+3);   
+       //     resp_buf[2]= *(p+2);
+       //     resp_buf[3]= *(p+3);   
 
-             p =(unsigned  char*) &Thermo2.Temp;
-            resp_buf[4]= *p;
-            resp_buf[5]= *(p+1);
-            resp_buf[6]= *(p+2);
-            resp_buf[7]= *(p+3);
+             p =(unsigned  char*) &AirFlow2;
+            resp_buf[2]= *p;
+            resp_buf[3]= *(p+1);
+        //    resp_buf[6]= *(p+2);
+       //     resp_buf[7]= *(p+3);
                            
            CAN.sendMsgBuf(canId, 0, 8, resp_buf);// adr 
 

@@ -4,6 +4,8 @@
 void Thermo1_Loop(void){
      switch(Thermo1.Mode){
     case T_INIT_1: 
+           AirFlow1 = analogRead(2);              
+           Serial.print("AirFlow1 : ");Serial.print(AirFlow1);      
           maxthermo_1.triggerOneShot(); 
           Thermo1.Mode++;
     break;
@@ -19,6 +21,7 @@ void Thermo1_Loop(void){
            Thermo1.Mode++;
     break;
     case T_CONV_2:
+
            Thermo1.FreqTimer = 25;
            Thermo1.Mode++;
     break;
@@ -33,6 +36,8 @@ void Thermo1_Loop(void){
 void Thermo2_Loop(void){
      switch(Thermo2.Mode){
     case T_INIT_1: 
+            AirFlow2 = analogRead(4);              
+           Serial.print("  AirFlow2 : ");Serial.println(AirFlow2);   
           maxthermo_2.triggerOneShot(); 
           Thermo2.Mode++;
     break;
@@ -52,6 +57,7 @@ void Thermo2_Loop(void){
            Thermo2.Mode++;
     break;
     case T_WAIT_2: // wait
+
           //Thermo1.Mode = 0;
     break;
     default:

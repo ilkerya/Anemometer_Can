@@ -275,8 +275,8 @@ void displayValues(void){
 
   #ifdef CAN_SLAVE
       display.print("3 ");   //10
-    display.print("Slave Adr:");   //10
-    display.print(SlaveAdr);   //10
+      display.print("Air1: ");  display.print(AirFlow1);  
+
   #endif
 
 
@@ -299,6 +299,10 @@ void displayValues(void){
           #endif
     #ifdef CAN_SLAVE
   display.print("4 ");   //10
+  display.print("Air2: ");  display.print(AirFlow2);  
+
+
+
 
       #endif
 
@@ -331,6 +335,8 @@ void displayValues(void){
   display.setCursor(0, 56); // 8th line
       #ifdef CAN_SLAVE
   display.print("8");   //10
+      display.print(" Slave Adr:");   //10
+    display.print(SlaveAdr);   //10
             #endif
   display.display();
 }

@@ -70,15 +70,16 @@ void loop() {
       Thermo1_Loop();
       Thermo2_Loop();
 
+
+   //   AirFlow2 = analogRead(4);     
+   //   Serial.print("   AirFlow2 : ");Serial.println(AirFlow2);
+      
+
+ //     AirFlow1 = analogRead(1);
+ //     AirFlow2 = analogRead(3);  
+      
+
       Can_Slave();
     #endif  
   
-  /*
-  delay(1000); // replace this with whatever
-  if (maxthermo_2.conversionComplete()) {
-    Serial.println(maxthermo_2.readThermocoupleTemperature());
-  } else {
-    Serial.println("Conversion not complete!");
-  }
-  */
 }

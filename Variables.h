@@ -1,14 +1,14 @@
 // https://en.cppreference.com/w/cpp/types/integer
 
-static const char TH_ERR_0[] PROGMEM = " Measurement Ok !  "; 
-static const char TH_ERR_1[] PROGMEM = "Cold Junc Rng Fault"; 
-static const char TH_ERR_2[] PROGMEM = "Thermocop Range Flt"; 
-static const char TH_ERR_3[] PROGMEM = "Cold Junc High Falt";
-static const char TH_ERR_4[] PROGMEM = "Cold Junc Low Fault"; 
-static const char TH_ERR_5[] PROGMEM = "Thermocp High Fault"; 
-static const char TH_ERR_6[] PROGMEM = "Thermocop Low Fault"; 
-static const char TH_ERR_7[] PROGMEM = "Over/UnderVolta Flt"; 
-static const char TH_ERR_8[] PROGMEM = "Thermocple Open Flt"; 
+static const char TH_ERR_0[] PROGMEM = " Measurement Ok ! "; 
+static const char TH_ERR_1[] PROGMEM = "Cold Junc Rng Flt"; 
+static const char TH_ERR_2[] PROGMEM = "Thermocp Range Flt"; 
+static const char TH_ERR_3[] PROGMEM = "Cold Junc High Flt";
+static const char TH_ERR_4[] PROGMEM = "Cold Junc Low Flt"; 
+static const char TH_ERR_5[] PROGMEM = "Thermocp High Flt"; 
+static const char TH_ERR_6[] PROGMEM = "Thermocp Low Fault"; 
+static const char TH_ERR_7[] PROGMEM = "Over/UnderVolt Flt"; 
+static const char TH_ERR_8[] PROGMEM = "Thermcple Open Flt"; 
 const char *const TH_ERR_TABLE[] PROGMEM = {TH_ERR_0, TH_ERR_1, TH_ERR_2, TH_ERR_3, TH_ERR_4, TH_ERR_5, TH_ERR_6, TH_ERR_7, TH_ERR_8};
 
 // CAN BUS VARIABLES
@@ -71,7 +71,48 @@ struct  Sensors
 } ;
 
 Sensors ThermoCouple;
-Sensors AirFlow;
+
+struct  AirSensors
+{
+  uint16_t Adr_1;
+  uint16_t Adr_2;
+  uint16_t Adr_3;
+  uint16_t Adr_4;  
+  uint16_t Adr_5;
+  uint16_t Adr_6;
+  uint16_t Adr_7; 
+  uint16_t Adr_8;
+  uint16_t Adr_9;
+  uint16_t Adr_10; 
+  uint16_t Adr_11;
+  uint16_t Adr_12;
+  uint16_t Adr_13; 
+  uint16_t Adr_14;
+  uint16_t Adr_15;
+  uint16_t Adr_16; 
+  uint16_t Adr_17;
+  uint16_t Adr_18;
+  uint16_t Adr_19; 
+  uint16_t Adr_20;
+  uint16_t Adr_21;
+  uint16_t Adr_22; 
+  uint16_t Adr_23;
+  uint16_t Adr_24;
+  uint16_t Adr_25; 
+  uint16_t Adr_26;
+  uint16_t Adr_27;
+  uint16_t Adr_28; 
+  uint16_t Adr_29;
+  uint16_t Adr_30;
+  uint16_t Adr_31; 
+  uint16_t Adr_32;
+  uint16_t Adr_33;
+  uint16_t Adr_34; 
+  uint16_t Adr_35;
+  uint16_t Adr_36;                   
+} ;
+
+AirSensors AirFlow;
 
 
 static const unsigned char PROGMEM logo16_glcd_bmp[] =

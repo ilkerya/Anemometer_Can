@@ -1,4 +1,100 @@
+int CRC8 = 0;
 
+void updateByte(byte byt) {
+  int polynomial8 = 0x0D5;
+  CRC8 ^= byt;
+  for (int i = 0; i < 8; i++) {
+    if ((CRC8 & 0x80) != 0) {
+      CRC8 = ((CRC8 << 1) ^ polynomial8);
+    } else {
+      CRC8 <<= 1;
+    }
+  }
+  CRC8 &= 0xFF;
+}
+
+int calculateCRC8 (byte input[], int inputLength) {
+  CRC8 = 0;
+  for (int i = 0; i < inputLength; i++) {
+    updateByte(input[i]);
+  }
+  return CRC8;
+}
+
+
+
+unsigned int calculateCRC16 (byte input[], int inputLength) {
+  unsigned int crc16 = 0x0000;
+  int polynomial = 0xA001;
+
+  for (int i = 0; i < inputLength; i++) {
+    unsigned int temp = (crc16 ^ input[i]) & 0xff;
+
+    for (int i = 0; i < 8; i++) {
+
+      if ((temp & 1) == 1) {
+        temp = (temp >> 1) ^ polynomial;
+      }
+      else {
+        temp = (temp >> 1);
+      }
+    }
+    crc16 = (crc16 >> 8) ^ temp;
+  }
+
+  return crc16;
+}
+
+ long calculateCRC32(byte input[], int inputLength) {
+  unsigned long crc32 = 0xffffffff;
+  long polynomial = 0xEDB88320;
+
+  for (int i = 0; i < inputLength; i++) {
+    unsigned long temp = (crc32 ^ input[i]) & 0xff;
+
+    for (int k = 0; k < 8; k++) {
+
+      if ((temp & 1) == 1) {
+        temp = (temp >> 1) ^ polynomial;
+      }
+      else {
+        temp = (temp >> 1);
+      }
+    }
+    crc32 = (crc32 >> 8) ^ temp;
+  }
+
+  return crc32 ^ 0xffffffff;
+}
+
+
+void sendJava (float* temp, float air, unsigned long canId) {
+   String s = "";
+
+    s += *temp; //temperature from sensor
+    s += ",";
+    s += air;   //airflow voltage from sensor (0 if sensor isn't connected)
+    s += ",";
+    s += canId; //node address/name
+
+
+    const char * s2 = s.c_str();
+    
+    /*crc calculation, leave the needed method uncommented*/
+    long crcCode = calculateCRC32((uint8_t const *)s2, s.length()); //CRC32
+    //unsigned int crcCode = calculateCRC16((uint8_t const *)s2, s.length()); //CRC16
+    //int crcCode = calculateCRC8((uint8_t const *)s2, s.length()); //CRC8
+
+    String len = String (s.length());
+    String crc1 = String(crcCode);
+
+    s += ":";
+    s += crc1; //c16, c32
+    s += ":";
+    s += len;
+    s += ";";
+    Serial.print(s);
+}
 
 void ClearNodes(byte index){
        for(int i = 0; i < sizeof(Adr_Slave); i++ ){
@@ -53,79 +149,74 @@ void ClearNodes(byte index){
       */
     }
 }
+void PutArray_Air(uint16_t * Air, byte index){
+       for(int i = 0; i < sizeof(Adr_Slave); i++ ){
+          if (Adr_Slave[index] == Adr_Slave[i]){
+                  switch(i){
+                    case 0: 
+                        AirFlow.Adr_1 = *Air;
+                        AirFlow.Adr_2 = *++Air;                                                    
+                    break;
+                    case 1:
+                        AirFlow.Adr_3 = *Air;
+                        AirFlow.Adr_4 = *++Air;                 
+                    break;
+                     case 2:
+                         AirFlow.Adr_5 = *Air;
+                         AirFlow.Adr_6 = *++Air;                       
+                    break;                   
+                    case 3:
+                         AirFlow.Adr_7 = *Air;
+                         AirFlow.Adr_8 = *++Air;                                               
+                    break;      
+                    case 4:
+                         AirFlow.Adr_9 = *Air;
+                         AirFlow.Adr_10 = *++Air;                                               
+                    break;
+                     case 5:
+                         AirFlow.Adr_11 = *Air;
+                         AirFlow.Adr_12 = *++Air;                            
+                    break;                   
+                    default:
+                    break;                                   
+              }                   
+         }            
+    }    
+}
 
-
-void PutArray(float* Temp,byte index, bool Type){     
-
-     
+void PutArray_Temp(float* Temp,byte index){     
       for(int i = 0; i < sizeof(Adr_Slave); i++ ){
           if (Adr_Slave[index] == Adr_Slave[i]){
                   switch(i){
                     case 0: 
                         Nodes.Adr_1 = ON;
-                      if(Type == THERMOCOUPLE){
                         ThermoCouple.Adr_1 = *Temp;
-                        ThermoCouple.Adr_2 = *++Temp;
-                      } 
-                      if(Type == AIRFLOW){
-                        AirFlow.Adr_1 = *Temp;
-                        AirFlow.Adr_2 = *++Temp;
-                      }                                      
+                        ThermoCouple.Adr_2 = *++Temp;                                   
                     break;
                     case 1:
                         Nodes.Adr_2 = ON;
-                       if(Type == THERMOCOUPLE){
                         ThermoCouple.Adr_3 = *Temp;
-                        ThermoCouple.Adr_4 = *++Temp;
-                       }
-                       if(Type == AIRFLOW){
-                        AirFlow.Adr_3 = *Temp;
-                        AirFlow.Adr_4 = *++Temp;
-                      }                   
+                        ThermoCouple.Adr_4 = *++Temp;                 
                     break;
                      case 2:
-                      Nodes.Adr_3 = ON;
-                       if(Type == THERMOCOUPLE){                   
+                      Nodes.Adr_3 = ON;               
                          ThermoCouple.Adr_5 = *Temp;
-                         ThermoCouple.Adr_6 = *++Temp;
-                       }
-                       if(Type == AIRFLOW){
-                         AirFlow.Adr_5 = *Temp;
-                         AirFlow.Adr_6 = *++Temp;
-                      }                         
+                         ThermoCouple.Adr_6 = *++Temp;                      
                     break;                   
                     case 3:
-                        Nodes.Adr_4 = ON;
-                       if(Type == THERMOCOUPLE){                      
+                        Nodes.Adr_4 = ON;                    
                         ThermoCouple.Adr_7 = *Temp;
-                        ThermoCouple.Adr_8 = *++Temp;
-                       }
-                       if(Type == AIRFLOW){
-                         AirFlow.Adr_7 = *Temp;
-                         AirFlow.Adr_8 = *++Temp;
-                      }                           
+                        ThermoCouple.Adr_8 = *++Temp;                          
                     break;      
                     case 4:
-                          Nodes.Adr_5 = ON;
-                        if(Type == THERMOCOUPLE){                      
+                          Nodes.Adr_5 = ON;                    
                           ThermoCouple.Adr_9 = *Temp;
-                          ThermoCouple.Adr_10 = *++Temp;
-                       }
-                       if(Type == AIRFLOW){
-                         AirFlow.Adr_9 = *Temp;
-                         AirFlow.Adr_10 = *++Temp;
-                      }                           
+                          ThermoCouple.Adr_10 = *++Temp;                           
                     break;
                      case 5:
-                        Nodes.Adr_6 = ON;
-                       if(Type == THERMOCOUPLE){                      
+                        Nodes.Adr_6 = ON;                     
                           ThermoCouple.Adr_11 = *Temp;
-                          ThermoCouple.Adr_12 = *++Temp;
-                       }
-                       if(Type == AIRFLOW){
-                         AirFlow.Adr_11 = *Temp;
-                         AirFlow.Adr_12 = *++Temp;
-                      }                             
+                          ThermoCouple.Adr_12 = *++Temp;                            
                     break;                   
                     default:
                     break;                                   

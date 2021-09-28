@@ -22,9 +22,9 @@ const int CAN_INT_PIN = 2;
 #define T_WAIT_2 5
 
 //#define SLAVE_01  1
-#define SLAVE_02  3
+//#define SLAVE_02  3
 //#define SLAVE_03  5
-//#define SLAVE_04  7
+#define SLAVE_04  7
 //#define SLAVE_05  9
 //#define SLAVE_06  11
 //#define SLAVE_07 13
@@ -54,5 +54,6 @@ void Thermo2_Conversion(void);
 void UI_Data(void);
 #define THERMOCOUPLE 1
 #define AIRFLOW 0
-void PutArray(float* Temp,byte index,bool Type);
+void PutArray_Temp(float* Temp,byte index);
+void PutArray_Air(uint16_t* Air,byte index);
 void ClearNodes(byte index);
