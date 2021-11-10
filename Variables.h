@@ -13,8 +13,8 @@ const char *const TH_ERR_TABLE[] PROGMEM = {TH_ERR_0, TH_ERR_1, TH_ERR_2, TH_ERR
 
 // CAN BUS VARIABLES
 //byte Adr_Slave[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06}; //send BUF
-byte Adr_Slave[6] = {1, 3, 5, 7, 9, 11}; //send BUF
-//byte Adr_Slave[18] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 }; //send BUF
+//byte Adr_Slave[6] = {1, 3, 5, 7, 9, 11}; //send BUF
+byte Adr_Slave[18] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35 }; //send BUF
 unsigned char stmp[8] = {0, 0, 0, 0, 0, 0, 0, 0}; //send BUF
 unsigned char resp_buf[8] = {0, 0, 0, 0, 0, 0, 0, 0}; //send BUF
 

@@ -4,13 +4,13 @@
 
 
 
-#define OLED_GND 47// 13
-#define OLED_POWER 45// 13
-#define OLED_CS    41// 13
-#define OLED_RESET 39
-#define OLED_DC    37// 12  // common 50
-#define OLED_CLK   35 //13 // common  52
-#define OLED_MOSI  33// 11 //common 51
+#define OLED_GND 41// 47
+#define OLED_POWER 39// 45
+#define OLED_CS    35// 41
+#define OLED_RESET 33 // 39
+#define OLED_DC    31// 37  // common 50
+#define OLED_CLK   29 //35 // common  52
+#define OLED_MOSI  27// 33 //common 51
 
 
 #define NUMFLAKES 10
@@ -245,10 +245,6 @@ void displayValues(void){
   }
   #endif
 
-  
-
-  //   Display_Line2 =  String(KeyAdc);
-
   display.setCursor(0, 16);
     #ifdef CAN_MASTER
     if(Nodes.Adr_1 == ON)display.print("1 ");
@@ -259,7 +255,7 @@ void displayValues(void){
     else display.print("  ");
     if(Nodes.Adr_4 == ON)display.print("7 ");
     else display.print("  ");
-    if(Nodes.Adr_5 == ON)display.print("9 ");
+    if(Nodes.Adr_5 == ON)display.print("9 "); //10
     else display.print("  ");
     if(Nodes.Adr_6 == ON)display.print("11 ");//13
     else display.print("   ");
@@ -267,50 +263,48 @@ void displayValues(void){
     else display.print("   ");
     if(Nodes.Adr_8 == ON)display.print("15 ");//19
     else display.print("   ");  
+    if(Nodes.Adr_9 == ON)display.print("17");//21
+    else display.print("  ");
     
       #endif
-
-  
-
 
   #ifdef CAN_SLAVE
       display.print("3 ");   //10
       display.print("Air1: ");  display.print(AirFlow1);  
-
   #endif
 
 
   display.setCursor(0, 24);
         #ifdef CAN_MASTER
+        /*
     if(Nodes.Adr_9 == ON)display.print("17 ");
     else display.print("  ");
+    */
     if(Nodes.Adr_10 == ON)display.print("19 ");
     else display.print("  ");   
     if(Nodes.Adr_11 == ON)display.print("21 ");
     else display.print("  ");
-    if(Nodes.Adr_12 == ON)display.print("23 ");
+    if(Nodes.Adr_12 == ON)display.print("23 ");//9
     else display.print("  ");
-    if(Nodes.Adr_13 == ON)display.print("25 ");//15
+    if(Nodes.Adr_13 == ON)display.print("25 ");//12
     else display.print("  ");
-    if(Nodes.Adr_14 == ON)display.print("27 ");//18
+    if(Nodes.Adr_14 == ON)display.print("27 ");//15
     else display.print("   ");
-    if(Nodes.Adr_15 == ON)display.print("29 ");//21
+    if(Nodes.Adr_15 == ON)display.print("29 ");//18
     else display.print("   "); 
+    if(Nodes.Adr_16 == ON)display.print("31");//20
+    else display.print("  ");  
+    
           #endif
     #ifdef CAN_SLAVE
   display.print("4 ");   //10
   display.print("Air2: ");  display.print(AirFlow2);  
-
-
-
-
       #endif
 
  
   display.setCursor(0, 32);
         #ifdef CAN_MASTER
-    if(Nodes.Adr_16 == ON)display.print("31 ");//
-    else display.print("   ");    
+  
     if(Nodes.Adr_17 == ON)display.print("33 ");//
     else display.print("   ");   
     if(Nodes.Adr_18 == ON)display.print("35 ");//
@@ -330,7 +324,6 @@ void displayValues(void){
       #ifdef CAN_SLAVE
   display.print("7 ");   //10
             #endif
-
 
   display.setCursor(0, 56); // 8th line
       #ifdef CAN_SLAVE

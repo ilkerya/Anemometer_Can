@@ -35,6 +35,45 @@ void Can_Init(){
           #ifdef SLAVE_06
           resp_buf[7]  = SLAVE_06;
           #endif 
+
+          #ifdef SLAVE_07
+          resp_buf[7]  = SLAVE_07;
+          #endif 
+          #ifdef SLAVE_08
+          resp_buf[7]  = SLAVE_08;
+          #endif 
+          #ifdef SLAVE_09
+          resp_buf[7]  = SLAVE_09;
+          #endif 
+          #ifdef SLAVE_10
+          resp_buf[7]  = SLAVE_10;
+          #endif 
+          #ifdef SLAVE_11
+          resp_buf[7]  = SLAVE_11;
+          #endif 
+          #ifdef SLAVE_12
+          resp_buf[7]  = SLAVE_12;
+          #endif 
+
+          #ifdef SLAVE_13
+          resp_buf[7]  = SLAVE_13;
+          #endif 
+          #ifdef SLAVE_14
+          resp_buf[7]  = SLAVE_14;
+          #endif 
+          #ifdef SLAVE_15
+          resp_buf[7]  = SLAVE_15;
+          #endif 
+          #ifdef SLAVE_16
+          resp_buf[7]  = SLAVE_16;
+          #endif 
+          #ifdef SLAVE_17
+          resp_buf[7]  = SLAVE_17;
+          #endif 
+          #ifdef SLAVE_18
+          resp_buf[7]  = SLAVE_18;
+          #endif 
+          
       //     resp_buf[7]++;
           SlaveAdr = resp_buf[7] ;
            
@@ -227,7 +266,7 @@ void Can_Slave(){
           #ifdef SLAVE_15
               AdrTemp = SLAVE_15;
           #endif 
-        #ifdef SLAVE_16
+          #ifdef SLAVE_16
               AdrTemp =  SLAVE_16;
           #endif 
           #ifdef SLAVE_17

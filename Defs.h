@@ -1,5 +1,41 @@
 
 
+//#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for amster mode
+
+//#define CAN_MASTER  // Main Master Module that commmincates with the PC 
+#define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
+
+//#define SLAVE_01  1   // adreess of the first unit is 1 and 2
+//#define SLAVE_02  3
+//#define SLAVE_03  5
+//#define SLAVE_04  7
+//#define SLAVE_05  9
+//#define SLAVE_06  11
+//#define SLAVE_07 13
+//#define SLAVE_08 15
+//#define SLAVE_09 17
+//#define SLAVE_10 19
+//#define SLAVE_11 21
+//#define SLAVE_12 23
+//#define SLAVE_13 25
+//#define SLAVE_14 27
+#define SLAVE_15 29
+//#define SLAVE_16 31
+//#define SLAVE_17 33
+//#define SLAVE_18 35
+
+// definition controls
+
+#if defined (CAN_MASTER)  & defined (CAN_SLAVE) 
+    #error Select Only One Platform-> CAN_MASTER or CAN_SLAVE
+#endif
+
+ #if !(!defined (CAN_MASTER) ^ !defined (CAN_SLAVE)) 
+    #error Select At Least One Platform -> CAN_MASTER or CAN_SLAVE
+#endif
+
+
+
 #include <SPI.h>
 #include "mcp2515_can.h"
 #include <Adafruit_MAX31856.h>
@@ -21,26 +57,7 @@ const int CAN_INT_PIN = 2;
 #define T_CONV_2 4
 #define T_WAIT_2 5
 
-//#define SLAVE_01  1
-//#define SLAVE_02  3
-//#define SLAVE_03  5
-#define SLAVE_04  7
-//#define SLAVE_05  9
-//#define SLAVE_06  11
-//#define SLAVE_07 13
-//#define SLAVE_08 15
-//#define SLAVE_09 17
-//#define SLAVE_10 19
-//#define SLAVE_11 21
-//#define SLAVE_12 23
-//#define SLAVE_13 25
-//#define SLAVE_14 27
-//#define SLAVE_15 29
-//#define SLAVE_16 31
-//#define SLAVE_17 33
-//#define SLAVE_18 35
-
-
+// prototypes 
 
 void Can_Init(void);
 void Can_Master(void);

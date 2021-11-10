@@ -4,12 +4,6 @@
 // 100 milliseconds, that times is made available by separating these
 // two steps.
 
-//#define DEBUG_MODE
-
-#define CAN_MASTER
-//#define CAN_SLAVE
-
-
 
 #include  "Defs.h"
 #include  "Variables.h"
@@ -35,16 +29,13 @@
 
 void setup() {
   MicroInit();
-
   IO_Set();
   delay(10);
-
   Can_Init();
-
     #ifdef  CAN_MASTER
-        Can_Master();
+      Can_Master(); // Init for Master Mode
     #endif
-    #ifdef CAN_SLAVE
+    #ifdef CAN_SLAVE  // Init  for Slave  Mode
       Serial.println("MAX31856 thermocouple test");
       Thermo1_Init();
       Thermo2_Init();
@@ -54,32 +45,28 @@ void setup() {
 
 
 void loop() {
-  
-//maxthermo_2.triggerOneShot();
-
-      Common_Loop(); 
-
-    #ifdef  CAN_MASTER
+     Common_Loop(); 
+    #ifdef  CAN_MASTER // SuperLoop Only for Master Mode
         Can_Master();
             delay(100);
             #ifndef DEBUG_MODE
-       UI_Data();      
+              UI_Data();      
             #endif
     #endif
-    #ifdef CAN_SLAVE
+
+    
+    #ifdef CAN_SLAVE  // SuperLoop Only for Slave  Mode
       Thermo1_Loop();
       Thermo2_Loop();
 
-
+    //maxthermo_2.triggerOneShot();
    //   AirFlow2 = analogRead(4);     
-   //   Serial.print("   AirFlow2 : ");Serial.println(AirFlow2);
+   //   Serial.print("   AirFlow2 : ");Serial.println(AirFlow2);    
+    //     AirFlow1 = analogRead(1);
+    //     AirFlow2 = analogRead(3);  
       
-
- //     AirFlow1 = analogRead(1);
- //     AirFlow2 = analogRead(3);  
-      
-
       Can_Slave();
+      Slave_Def_Check();
     #endif  
   
 }
