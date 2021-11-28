@@ -15,7 +15,9 @@
 
     // Use software SPI: CS, DI, DO, CLK
 
-    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(6, 7, 3, 5);   
+  //  Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(6, 7, 3, 5);  // AirFlowV1 PCB
+    Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(3, 5, 6, 7);  // AirFlowV2 PCB
+     
     Adafruit_MAX31856 maxthermo_2 = Adafruit_MAX31856(10, 11, 12, 13);
 
     //Adafruit_MAX31856 maxthermo_1 = Adafruit_MAX31856(10);

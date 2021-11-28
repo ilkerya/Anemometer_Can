@@ -19,8 +19,8 @@
 //#define SLAVE_12 23
 //#define SLAVE_13 25
 //#define SLAVE_14 27
-#define SLAVE_15 29
-//#define SLAVE_16 31
+//#define SLAVE_15 29
+#define SLAVE_16 31
 //#define SLAVE_17 33
 //#define SLAVE_18 35
 
