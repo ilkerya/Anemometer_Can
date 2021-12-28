@@ -1,5 +1,8 @@
 
-
+// C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can
+// add .
+// commit -m "exp"
+// push https://github.com/ilkerya/anemometer_can master
 //#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for amster mode
 
 //#define CAN_MASTER  // Main Master Module that commmincates with the PC 
