@@ -1,3 +1,4 @@
+// https://www.seeedstudio.com/blog/2019/11/27/introduction-to-can-bus-and-how-to-use-it-with-arduino/
 
 mcp2515_can CAN(SPI_CS_PIN); // Set CS pin
 
