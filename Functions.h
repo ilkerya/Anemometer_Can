@@ -69,7 +69,6 @@ unsigned int calculateCRC16 (byte input[], int inputLength) {
 
 
 void sendJava (float* temp, float air, unsigned long canId) {
-  /*
    String s = "";
 
     s += *temp; //temperature from sensor
@@ -81,7 +80,7 @@ void sendJava (float* temp, float air, unsigned long canId) {
 
     const char * s2 = s.c_str();
     
-    /*crc calculation, leave the needed method uncommented
+    /*crc calculation, leave the needed method uncommented*/
     long crcCode = calculateCRC32((uint8_t const *)s2, s.length()); //CRC32
     //unsigned int crcCode = calculateCRC16((uint8_t const *)s2, s.length()); //CRC16
     //int crcCode = calculateCRC8((uint8_t const *)s2, s.length()); //CRC8
@@ -95,7 +94,6 @@ void sendJava (float* temp, float air, unsigned long canId) {
     s += len;
     s += ";";
     Serial.print(s);
-    */
 }
 
 void ClearNodes(byte index){
@@ -707,5 +705,4 @@ void Slave_Def_Check(){
     Serial.println("Select Only One Slave Address and recompile !!!");
     while(1);
   }
- 
 }

@@ -1,11 +1,10 @@
 
-// C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can
-// add .
-// commit -m "exp"
-// push https://github.com/ilkerya/anemometer_can master
-//#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for amster mode
+// Master
+//C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can  
 
-//#define CAN_MASTER  // Main Master Module that commmincates with the PC 
+#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for amster mode
+
+//#define CAN_MASTER  // Main Master Module that commmincates with the PC
 #define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
 
 //#define SLAVE_01  1   // adreess of the first unit is 1 and 2
@@ -23,18 +22,18 @@
 //#define SLAVE_13 25
 //#define SLAVE_14 27
 //#define SLAVE_15 29
-#define SLAVE_16 31
+//#define SLAVE_16 31
 //#define SLAVE_17 33
-//#define SLAVE_18 35
+#define SLAVE_18 35
 
 // definition controls
 
-#if defined (CAN_MASTER)  & defined (CAN_SLAVE) 
-    #error Select Only One Platform-> CAN_MASTER or CAN_SLAVE
+#if defined (CAN_MASTER)  & defined (CAN_SLAVE)
+#error Select Only One Platform-> CAN_MASTER or CAN_SLAVE
 #endif
 
- #if !(!defined (CAN_MASTER) ^ !defined (CAN_SLAVE)) 
-    #error Select At Least One Platform -> CAN_MASTER or CAN_SLAVE
+#if !(!defined (CAN_MASTER) ^ !defined (CAN_SLAVE))
+#error Select At Least One Platform -> CAN_MASTER or CAN_SLAVE
 #endif
 
 
@@ -60,7 +59,7 @@ const int CAN_INT_PIN = 2;
 #define T_CONV_2 4
 #define T_WAIT_2 5
 
-// prototypes 
+// prototypes
 
 void Can_Init(void);
 void Can_Master(void);
@@ -74,6 +73,6 @@ void Thermo2_Conversion(void);
 void UI_Data(void);
 #define THERMOCOUPLE 1
 #define AIRFLOW 0
-void PutArray_Temp(float* Temp,byte index);
-void PutArray_Air(uint16_t* Air,byte index);
+void PutArray_Temp(float* Temp, byte index);
+void PutArray_Air(uint16_t* Air, byte index);
 void ClearNodes(byte index);

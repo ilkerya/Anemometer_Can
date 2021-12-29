@@ -1,9 +1,8 @@
-// https://www.seeedstudio.com/blog/2019/11/27/introduction-to-can-bus-and-how-to-use-it-with-arduino/
 
 mcp2515_can CAN(SPI_CS_PIN); // Set CS pin
 
 void Can_Init(){
-    while (CAN_OK != CAN.begin(CAN_500KBPS)) {             // init can bus : baudrate = 500k
+    while (CAN_OK != CAN.begin(CAN_500KBPS)) {             // init can bus : baudrate = 500k CAN_500KBPS
         Serial.println("CAN init fail, retry...");
         delay(100);
     }
@@ -100,20 +99,20 @@ void Can_Master(){
     }
          */
 
-    stmp[0] = 'S';
-    stmp[1] = 'e';
-    stmp[2] = 'n';
-    stmp[3] = 'd';
-    stmp[4] = 'S';
-    stmp[5] = 'e';
-    stmp[6] = 'n';
-    stmp[7] = 'd';
+    stmp[0] = 'S'; //53
+    stmp[1] = 'e'; //65
+    stmp[2] = 'n'; //6E
+    stmp[3] = 'd'; //64
+    stmp[4] = 'S'; //53
+    stmp[5] = 'e'; //65
+    stmp[6] = 'n'; //6E
+    stmp[7] = 'd'; //64
           #ifdef DEBUG_MODE
       Serial.print("Slave Req Adr From Master : ");
       Serial.println(Adr_Slave[Adr_index]);
           #endif 
     CAN.sendMsgBuf(Adr_Slave[Adr_index], 0, 8, stmp);// adr 0X00
-             // delay(100);  // send data per 100ms 30ms sorunlu 
+            //  delay(100);  // send data per 100ms 30ms sorunlu 
    CanTimeOut_Timer = 0;
    CanTimeOut_Flag = 0;   
    while (CAN_MSGAVAIL != CAN.checkReceive() && !CanTimeOut_Flag) {} // needs timeout!!!!
