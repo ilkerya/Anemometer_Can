@@ -318,11 +318,34 @@ void displayValues(void){
 
       #ifdef CAN_SLAVE
   display.print("6");   //10
+  display.print(" FW: ");   //10
+  display.print(VERSION_SLAVE);   //10
             #endif
+      #ifdef CAN_MASTER
+  display.print("FW Ver: ");   //10
+  display.print(VERSION_MASTER);   //10
+            #endif
+            
   display.setCursor(0, 48);
 
       #ifdef CAN_SLAVE
   display.print("7 ");   //10
+  
+  display.print("Can Rx:");   //10
+  if(CanMessages.RxTimer){
+    display.print("On ");   
+    CanMessages.RxTimer--;
+  }
+  else  display.print("Off"); 
+    
+  display.print(" Tx:");   //10
+  if(CanMessages.TxTimer){
+    display.print("On ");   
+    CanMessages.TxTimer--;
+  }
+  else  display.print("Off"); 
+
+  
             #endif
 
   display.setCursor(0, 56); // 8th line

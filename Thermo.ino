@@ -130,6 +130,7 @@ uint8_t Fault_Detect(uint8_t fault){
     if (fault & MAX31856_FAULT_OPEN)    FaultNo = 8;
   }
   else FaultNo = 0;
+  //Error_Slave = FaultNo;
   char buffer[21];
   strcpy_P(buffer, (char *)pgm_read_word(&(TH_ERR_TABLE[FaultNo])));  // Necessary casts and dereferencing, just copy.
   Serial.println(buffer);

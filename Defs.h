@@ -1,11 +1,15 @@
 
 // Master
-//C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can  
+//C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can 
+// git add .
+// git commit -m "expl"
+// git push https://github.com/ilkerya/anemometer_can "master"
 
-#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for amster mode
 
-//#define CAN_MASTER  // Main Master Module that commmincates with the PC
-#define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
+//#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for master mode
+
+#define CAN_MASTER  // Main Master Module that commmincates with the PC
+//#define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
 
 //#define SLAVE_01  1   // adreess of the first unit is 1 and 2
 //#define SLAVE_02  3
@@ -24,7 +28,7 @@
 //#define SLAVE_15 29
 //#define SLAVE_16 31
 //#define SLAVE_17 33
-#define SLAVE_18 35
+//#define SLAVE_18 35
 
 // definition controls
 
