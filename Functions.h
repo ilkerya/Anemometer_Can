@@ -1,3 +1,26 @@
+
+
+
+#ifdef ARDUINO_DUE // ARM 32 bit
+
+#define ARM_MATH_CM0PLUS
+void startTimer(Tc *tc, uint32_t channel, IRQn_Type irq, uint32_t frequency) {
+  pmc_set_writeprotect(false);
+  pmc_enable_periph_clk((uint32_t)irq);
+  TC_Configure(tc, channel, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4);
+  //    uint32_t rc = VARIANT_MCK/128/frequency; //128 because we selected TIMER_CLOCK4 above
+  uint32_t rc = VARIANT_MCK/128/frequency; //128 because we selected TIMER_CLOCK4 above
+  TC_SetRA(tc, channel, rc/2); //50% high, 50% low
+  TC_SetRC(tc, channel, rc);
+  TC_Start(tc, channel);
+  tc->TC_CHANNEL[channel].TC_IER=TC_IER_CPCS;
+  tc->TC_CHANNEL[channel].TC_IDR=~TC_IER_CPCS;
+//  tc->TC_CHANNEL[channel].TC_IER=  TC_IER_CPCS | TC_IER_CPAS;
+ // tc->TC_CHANNEL[channel].TC_IDR=~(TC_IER_CPCS | TC_IER_CPAS);
+  NVIC_EnableIRQ(irq);
+}
+#endif
+
 int CRC8 = 0;
 
 void updateByte(byte byt) {
@@ -69,6 +92,8 @@ unsigned int calculateCRC16 (byte input[], int inputLength) {
 
 
 void sendJava (float* temp, float air, unsigned long canId) {
+  /*
+
    String s = "";
 
     s += *temp; //temperature from sensor
@@ -80,7 +105,7 @@ void sendJava (float* temp, float air, unsigned long canId) {
 
     const char * s2 = s.c_str();
     
-    /*crc calculation, leave the needed method uncommented*/
+    //crc calculation, leave the needed method uncommented
     long crcCode = calculateCRC32((uint8_t const *)s2, s.length()); //CRC32
     //unsigned int crcCode = calculateCRC16((uint8_t const *)s2, s.length()); //CRC16
     //int crcCode = calculateCRC8((uint8_t const *)s2, s.length()); //CRC8
@@ -94,6 +119,7 @@ void sendJava (float* temp, float air, unsigned long canId) {
     s += len;
     s += ";";
     Serial.print(s);
+    */
 }
 
 void ClearNodes(byte index){
@@ -465,12 +491,15 @@ void IO_Settings() {
 }
 
 // interrupt vector
-   // #ifdef ARDUINO_MEGA
+    #ifdef ARDUINO_MEGA
 ISR(TIMER1_OVF_vect){        // interrupt service routine that wraps a user defined function supplied by attachInterrupt
  //   TCNT1 = 34286;            // preload timer for 500mSec
        TCNT1 = 64286;            // preload timer for 20mSec
-   // #endif
-    
+    #endif
+      #ifdef ARDUINO_DUE
+void TC3_Handler(){
+        TC_GetStatus(TC1, 0);
+    #endif      
     Loop.IntTimer_250++;
     Loop.IntTimer_500 ++;
     Loop.IntTimer_1 ++;
@@ -614,23 +643,24 @@ void MicroInit() {
  // Serial.print(F("    DisplaySleep: "));
  // Serial.println(Display.SleepEnable);
 
-#ifdef ARDUINO_MEGA
+  #ifdef ARDUINO_MEGA
  // wdt_reset();
  // wdt_enable(WDTO_8S);   //wdt_enable(WDT0_1S);
   //https://www.nongnu.org/avr-libc/user-manual/group__avr__watchdog.html
-#endif
 
-//  ADCSRA &= ~ (1 << ADEN);            // turn off ADC to save power ,, enable when needed and turn off again
+
+  //  ADCSRA &= ~ (1 << ADEN);            // turn off ADC to save power ,, enable when needed and turn off again
     ADCSRA |= (1 << ADEN); // enable adc
+  #endif    
    #ifdef DEBUG_MODE
   Serial.print(F("Compiled: "));
   Serial.println( __DATE__ ", " __TIME__ ", " __VERSION__); 
   #endif
- // Serial.println( F("Compiled: ") __DATE__ ", " __TIME__ ", " __VERSION__);
+  // Serial.println( F("Compiled: ") __DATE__ ", " __TIME__ ", " __VERSION__);
   //Compiled: Jul 21 2020 15:55:39 7.3.0
   //  ShowSerialCode();
   DisplayInit();   
- // #endif
+  #ifdef ARDUINO_MEGA
   // initialize timer1
     noInterrupts();           // disable all interrupts
     TCCR1A = 0;
@@ -640,6 +670,17 @@ void MicroInit() {
     TCCR1B |= (1 << CS12);    // 256 prescaler
     TIMSK1 |= (1 << TOIE1);   // enable timer overflow interrupt
     interrupts();
+  #endif
+  #ifdef ARDUINO_DUE
+    startTimer(TC1, 0, TC3_IRQn, 50); //TC1 channel 0, the IRQ for that channel and the desired frequency 64
+        // 20 -> 50ms   1000/20 = 50
+        // 32 -> 32ms       
+        // 50 -> 20ms
+        // 51 -> 19.62 m2
+        // 52 -> 19.22 ms      
+        // 54 -> 18.63
+        // 64 -> 15.68 ms
+  #endif 
 }
 // check if only one Slave Selected otherwise print problem and halt
 void Slave_Def_Check(){ 

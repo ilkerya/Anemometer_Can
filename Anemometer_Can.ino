@@ -6,6 +6,9 @@
 #define VERSION_SLAVE  1.12 
 #define VERSION_MASTER 1.20 
 
+//#define ARDUINO_MEGA // 8 bit AVR Compiler -> GNU AVRDude
+#define ARDUINO_DUE // ARM Cortex M3 -> GNU AVRDude 
+
 #include  "Defs.h"
 #include  "Variables.h"
 #include  "Display.h"
@@ -51,7 +54,12 @@ void loop() {
      Common_Loop(); 
     #ifdef  CAN_MASTER // SuperLoop Only for Master Mode
         Can_Master();
+        #ifdef ARDUINO_MEGA // 
             delay(100);
+        #endif
+        #ifdef ARDUINO_DUE // ARM 32 bit
+            delay(300);
+        #endif          
             #ifndef DEBUG_MODE
               UI_Data();      
             #endif

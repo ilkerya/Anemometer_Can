@@ -1,6 +1,7 @@
 
 // Master
 //C:\Users\ilker\OneDrive\Belgeler\Arduino\Anemometer_Can 
+
 // git init // first start
 
 // git pull https://github.com/ilkerya/anemometer_can 
@@ -9,10 +10,12 @@
 // git push https://github.com/ilkerya/anemometer_can "master"
 
 
-//#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for master mode
 
-//#define CAN_MASTER  // Main Master Module that commmincates with the PC
-#define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
+
+#define DEBUG_MODE // comment out // for  normal UI interface  only avaible for master mode
+
+#define CAN_MASTER  // Main Master Module that commmincates with the PC
+//#define CAN_SLAVE // all other slave units you also need to slect the proper address for any slave unit below
 
 //#define SLAVE_01  1   // adreess of the first unit is 1 and 2
 //#define SLAVE_02  3
@@ -43,6 +46,12 @@
 #error Select At Least One Platform -> CAN_MASTER or CAN_SLAVE
 #endif
 
+#if defined (ARDUINO_MEGA)  & defined (ARDUINO_DUE)
+#error Select Only One Platform
+#endif
+#if !(!defined (ARDUINO_MEGA) ^ !defined (ARDUINO_DUE))
+#error Select At Least One Platform
+#endif
 
 
 #include <SPI.h>
